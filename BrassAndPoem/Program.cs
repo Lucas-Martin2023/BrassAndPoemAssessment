@@ -50,53 +50,76 @@ List<ProductType> productTypes = new List<ProductType>()
 };
 //put your greeting here
 Console.WriteLine("Welcome to the one and only Brass and Poem store");
+DisplayMenu();
+//implement your loop her
 
-//implement your loop here
-string choice = null;
-while (choice != "5")
+void DisplayMenu()
 {
-    Console.WriteLine(@"Please choose an option:
+    string choice = null;
+    while (choice != "5")
+    {
+        Console.WriteLine(@"Please choose an option:
                         1. Display all products
                         2. Delete a product
                         3. Add a product
                         4. Update a product
                         5. Exit");
-    choice = Console.ReadLine();
-    if (choice == "1")
-    {
-        DisplayAllProducts(products, productTypes);
+        choice = Console.ReadLine();
+        if (choice == "1")
+        {
+            DisplayAllProducts(products, productTypes);
+        }
+        else if (choice == "2")
+        {
+            DeleteProduct(products, productTypes);
+        }
+        else if (choice == "3")
+        {
+            AddProduct(products, productTypes);
+        }
+        else if (choice == "4")
+        {
+            UpdateProduct(products, productTypes);
+        }
+        else if (choice == "5")
+        {
+            Console.WriteLine("Goodbye!");
+        }
     }
-    else if (choice == "2")
-    {
-        DeleteProduct(products, productTypes);
-    }
-    else if (choice == "3")
-    {
-        AddProduct(products, productTypes);
-    }
-    else if (choice == "4")
-    {
-        UpdateProduct(products, productTypes);
-    }
-    else if (choice == "5")
-    {
-        Console.WriteLine("Goodbye!");
-    }
-}
-
-void DisplayMenu()
-{
-    throw new NotImplementedException();
 }
 
 void DisplayAllProducts(List<Product> products, List<ProductType> productTypes)
 {
-    throw new NotImplementedException();
+    Console.WriteLine("All Products:");
+
+    for (int i = 0; i < products.Count; i++)
+    {
+        Product product = products[i];
+        ProductType productType = productTypes.FirstOrDefault(pt => pt.Id == product.ProductTypeId);
+
+        Console.WriteLine($"{i + 1}. {product.Name} - ${product.Price} ({productType?.Title})");
+    }
 }
 
 void DeleteProduct(List<Product> products, List<ProductType> productTypes)
 {
-    throw new NotImplementedException();
+    Console.WriteLine("Select a product to delete:");
+
+    for (int i = 0;i < products.Count;i++)
+    {
+        Product product = products[i];
+        Console.WriteLine($"{i + 1}. {product.Name} - ${product.Price}");
+    }
+
+    if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= products.Count)
+    {
+        products.RemoveAt(index - 1);
+        Console.WriteLine("Product deleted successfully.");
+    }
+    else 
+    {
+        Console.WriteLine("Invalid input. No product deleted.");
+    }
 }
 
 void AddProduct(List<Product> products, List<ProductType> productTypes)
